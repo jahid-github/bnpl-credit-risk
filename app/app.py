@@ -313,11 +313,7 @@ def inject_styles():
             div[data-baseweb="select"] input,
             div[data-baseweb="select"] div,
             div[data-baseweb="select"] span,
-            div[data-baseweb="select"] svg,
-            div[data-baseweb="popover"] *,
-            div[data-baseweb="menu"] *,
-            [role="listbox"] *,
-            li[role="option"] * {
+            div[data-baseweb="select"] svg {
                 color: var(--ink) !important;
                 fill: var(--ink) !important;
                 -webkit-text-fill-color: var(--ink) !important;
@@ -337,21 +333,59 @@ def inject_styles():
             div[data-baseweb="popover"],
             div[data-baseweb="menu"],
             [role="listbox"] {
-                background: rgba(255, 253, 249, 0.99) !important;
-                color: var(--ink) !important;
+                background: #172221 !important;
+                color: #f8fbfa !important;
+                border: 1px solid rgba(255, 255, 255, 0.10) !important;
+                box-shadow: 0 20px 45px rgba(10, 15, 14, 0.28) !important;
+            }
+
+            div[data-baseweb="popover"] ul,
+            div[data-baseweb="popover"] li,
+            div[data-baseweb="popover"] li *,
+            div[data-baseweb="menu"] ul,
+            div[data-baseweb="menu"] li,
+            div[data-baseweb="menu"] li *,
+            ul[role="listbox"],
+            ul[role="listbox"] li,
+            ul[role="listbox"] li *,
+            div[role="listbox"],
+            div[role="listbox"] *,
+            div[role="option"],
+            div[role="option"] * {
+                color: #f8fbfa !important;
+                fill: #f8fbfa !important;
+                -webkit-text-fill-color: #f8fbfa !important;
+                opacity: 1 !important;
             }
 
             li[role="option"],
             div[role="option"] {
                 background: transparent !important;
-                color: var(--ink) !important;
+                color: #f8fbfa !important;
+                -webkit-text-fill-color: #f8fbfa !important;
+                font-weight: 600 !important;
+                border-radius: 12px !important;
+            }
+
+            li[role="option"] *,
+            div[role="option"] * {
+                color: #f8fbfa !important;
+                fill: #f8fbfa !important;
+                -webkit-text-fill-color: #f8fbfa !important;
+                font-weight: 600 !important;
             }
 
             li[role="option"]:hover,
             div[role="option"]:hover,
             li[role="option"][aria-selected="true"],
             div[role="option"][aria-selected="true"] {
-                background: rgba(15, 118, 110, 0.10) !important;
+                background: rgba(15, 118, 110, 0.32) !important;
+            }
+
+            li[role="option"][aria-selected="true"] *,
+            div[role="option"][aria-selected="true"] * {
+                color: #ffffff !important;
+                -webkit-text-fill-color: #ffffff !important;
             }
 
             .stNumberInput input::placeholder,
