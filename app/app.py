@@ -76,26 +76,6 @@ def inject_styles():
                 backdrop-filter: blur(12px);
             }
 
-            div[data-testid="stMetric"] {
-                background: rgba(255, 250, 242, 0.72);
-                border: 1px solid var(--line);
-                border-radius: 18px;
-                padding: 0.9rem 1rem;
-            }
-
-            div[data-testid="stMetric"] label,
-            div[data-testid="stMetric"] [data-testid="stMetricLabel"],
-            div[data-testid="stMetric"] [data-testid="stMetricLabel"] *,
-            div[data-testid="stMetric"] [data-testid="stMetricValue"],
-            div[data-testid="stMetric"] [data-testid="stMetricValue"] *,
-            div[data-testid="stMetric"] [data-testid="stMetricDelta"],
-            div[data-testid="stMetric"] [data-testid="stMetricDelta"] * {
-                color: var(--ink) !important;
-                -webkit-text-fill-color: var(--ink) !important;
-                fill: var(--ink) !important;
-                opacity: 1 !important;
-            }
-
             .hero {
                 background:
                     linear-gradient(135deg, rgba(12, 66, 60, 0.96), rgba(15, 118, 110, 0.92)),
@@ -249,6 +229,7 @@ def inject_styles():
                 font-family: "Space Grotesk", sans-serif;
                 font-size: 2rem;
                 margin: 0;
+                line-height: 1.08;
                 color: var(--ink) !important;
                 -webkit-text-fill-color: var(--ink) !important;
             }
@@ -304,6 +285,48 @@ def inject_styles():
             .result-card.high .result-title {
                 color: #8a3412 !important;
                 -webkit-text-fill-color: #8a3412 !important;
+            }
+
+            .summary-card {
+                background: rgba(255, 250, 242, 0.82);
+                border: 1px solid var(--line);
+                border-radius: 22px;
+                padding: 1rem 1rem 1.05rem 1rem;
+                box-shadow: var(--shadow);
+                min-height: 154px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .summary-label {
+                font-size: 0.86rem;
+                text-transform: uppercase;
+                letter-spacing: 0.14em;
+                color: var(--muted) !important;
+                -webkit-text-fill-color: var(--muted) !important;
+                margin-bottom: 0.8rem;
+                line-height: 1.4;
+            }
+
+            .summary-value {
+                font-family: "Space Grotesk", sans-serif;
+                font-size: 1.8rem;
+                line-height: 1.15;
+                color: var(--ink) !important;
+                -webkit-text-fill-color: var(--ink) !important;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+                margin: 0;
+            }
+
+            .summary-value.dense {
+                font-size: 1.45rem;
+            }
+
+            .summary-value.compact {
+                font-size: 1.12rem;
+                line-height: 1.28;
             }
 
             .placeholder {
@@ -519,6 +542,21 @@ def stat_card(title, value, note):
         <div class="stat-label">{title}</div>
         <div class="stat-value">{value}</div>
         <p class="stat-note">{note}</p>
+    </div>
+    """
+
+
+def summary_card(label, value):
+    value_class = "summary-value"
+    if len(value) > 22:
+        value_class += " compact"
+    elif len(value) > 10:
+        value_class += " dense"
+
+    return f"""
+    <div class="summary-card">
+        <div class="summary-label">{label}</div>
+        <div class="{value_class}">{value}</div>
     </div>
     """
 
@@ -794,7 +832,7 @@ with main_col:
                     <div class="result-kicker">Assessment Output</div>
                     <div class="result-grid">
                         <div>
-                            <h2 class="result-title">{risk_level}</h2>
+                            <div class="result-title">{risk_level}</div>
                             <p class="result-copy">{summary}</p>
                         </div>
                         <div class="result-pill">
@@ -808,9 +846,12 @@ with main_col:
             )
 
             metric_cols = st.columns(3)
-            metric_cols[0].metric("Default Probability", f"{probability:.2%}")
-            metric_cols[1].metric("Risk Level", risk_level)
-            metric_cols[2].metric("Suggested Action", recommendation)
+            with metric_cols[0]:
+                st.markdown(summary_card("Default Probability", f"{probability:.2%}"), unsafe_allow_html=True)
+            with metric_cols[1]:
+                st.markdown(summary_card("Risk Level", risk_level), unsafe_allow_html=True)
+            with metric_cols[2]:
+                st.markdown(summary_card("Suggested Action", recommendation), unsafe_allow_html=True)
             st.progress(float(probability))
     else:
         st.markdown(
