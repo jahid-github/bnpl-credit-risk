@@ -296,18 +296,31 @@ def inject_styles():
                 font-family: "Space Grotesk", sans-serif;
                 font-size: 1.05rem;
                 margin: 0 0 0.35rem 0;
-                color: #7c2d12;
+                color: #7c2d12 !important;
+                -webkit-text-fill-color: #7c2d12 !important;
             }
 
             .feedback-copy {
                 margin: 0;
-                color: #7c2d12;
+                color: #7c2d12 !important;
+                -webkit-text-fill-color: #7c2d12 !important;
                 font-size: 0.95rem;
                 line-height: 1.65;
             }
 
             .feedback-copy strong {
-                color: #5b1c08;
+                color: #5b1c08 !important;
+                -webkit-text-fill-color: #5b1c08 !important;
+            }
+
+            .feedback-card.warning * {
+                color: #7c2d12 !important;
+                -webkit-text-fill-color: #7c2d12 !important;
+            }
+
+            .feedback-card.warning strong {
+                color: #5b1c08 !important;
+                -webkit-text-fill-color: #5b1c08 !important;
             }
 
             div.stButton > button,
@@ -705,7 +718,7 @@ with main_col:
             st.markdown(
                 f"""
                 <div class="feedback-card warning">
-                    <h3 class="feedback-title">Complete all fields before running the assessment</h3>
+                    <div class="feedback-title">Complete all fields before running the assessment</div>
                     <p class="feedback-copy">
                         The model did not run because some inputs are still empty.
                         Missing fields: <strong>{missing_text}</strong>.
