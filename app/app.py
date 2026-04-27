@@ -83,6 +83,19 @@ def inject_styles():
                 padding: 0.9rem 1rem;
             }
 
+            div[data-testid="stMetric"] label,
+            div[data-testid="stMetric"] [data-testid="stMetricLabel"],
+            div[data-testid="stMetric"] [data-testid="stMetricLabel"] *,
+            div[data-testid="stMetric"] [data-testid="stMetricValue"],
+            div[data-testid="stMetric"] [data-testid="stMetricValue"] *,
+            div[data-testid="stMetric"] [data-testid="stMetricDelta"],
+            div[data-testid="stMetric"] [data-testid="stMetricDelta"] * {
+                color: var(--ink) !important;
+                -webkit-text-fill-color: var(--ink) !important;
+                fill: var(--ink) !important;
+                opacity: 1 !important;
+            }
+
             .hero {
                 background:
                     linear-gradient(135deg, rgba(12, 66, 60, 0.96), rgba(15, 118, 110, 0.92)),
@@ -201,17 +214,17 @@ def inject_styles():
             }
 
             .result-card.low {
-                background: linear-gradient(135deg, rgba(15, 118, 110, 0.18), rgba(255, 250, 242, 0.92));
+                background: linear-gradient(135deg, rgba(15, 118, 110, 0.22), rgba(255, 250, 242, 0.96));
                 border-color: rgba(15, 118, 110, 0.20);
             }
 
             .result-card.medium {
-                background: linear-gradient(135deg, rgba(217, 119, 6, 0.17), rgba(255, 250, 242, 0.92));
+                background: linear-gradient(135deg, rgba(217, 119, 6, 0.22), rgba(255, 250, 242, 0.96));
                 border-color: rgba(217, 119, 6, 0.20);
             }
 
             .result-card.high {
-                background: linear-gradient(135deg, rgba(180, 83, 9, 0.18), rgba(255, 250, 242, 0.92));
+                background: linear-gradient(135deg, rgba(180, 83, 9, 0.24), rgba(255, 250, 242, 0.96));
                 border-color: rgba(180, 83, 9, 0.22);
             }
 
@@ -219,7 +232,8 @@ def inject_styles():
                 font-size: 0.78rem;
                 text-transform: uppercase;
                 letter-spacing: 0.18em;
-                color: var(--muted);
+                color: var(--muted) !important;
+                -webkit-text-fill-color: var(--muted) !important;
                 margin-bottom: 0.5rem;
             }
 
@@ -235,11 +249,13 @@ def inject_styles():
                 font-family: "Space Grotesk", sans-serif;
                 font-size: 2rem;
                 margin: 0;
-                color: var(--ink);
+                color: var(--ink) !important;
+                -webkit-text-fill-color: var(--ink) !important;
             }
 
             .result-copy {
-                color: var(--muted);
+                color: #425954 !important;
+                -webkit-text-fill-color: #425954 !important;
                 font-size: 0.96rem;
                 line-height: 1.7;
                 margin: 0.55rem 0 0 0;
@@ -259,14 +275,35 @@ def inject_styles():
                 display: block;
                 font-family: "Space Grotesk", sans-serif;
                 font-size: 1.55rem;
-                color: var(--ink);
+                color: var(--ink) !important;
+                -webkit-text-fill-color: var(--ink) !important;
             }
 
             .result-pill span {
                 font-size: 0.8rem;
                 text-transform: uppercase;
                 letter-spacing: 0.16em;
-                color: var(--muted);
+                color: var(--muted) !important;
+                -webkit-text-fill-color: var(--muted) !important;
+            }
+
+            .result-card * {
+                opacity: 1 !important;
+            }
+
+            .result-card.low .result-title {
+                color: #0b5b55 !important;
+                -webkit-text-fill-color: #0b5b55 !important;
+            }
+
+            .result-card.medium .result-title {
+                color: #9a5200 !important;
+                -webkit-text-fill-color: #9a5200 !important;
+            }
+
+            .result-card.high .result-title {
+                color: #8a3412 !important;
+                -webkit-text-fill-color: #8a3412 !important;
             }
 
             .placeholder {
