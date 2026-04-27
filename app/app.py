@@ -181,6 +181,7 @@ def inject_styles():
             .side-panel h3 {
                 font-size: 1.05rem;
                 margin: 0 0 0.7rem 0;
+                color: var(--ink) !important;
             }
 
             .side-panel p,
@@ -303,6 +304,31 @@ def inject_styles():
                 background: rgba(255, 253, 249, 0.95);
                 border-radius: 16px;
                 border-color: rgba(21, 51, 45, 0.14);
+            }
+
+            .stNumberInput input,
+            .stTextInput input,
+            .stTextArea textarea,
+            div[data-baseweb="input"] input,
+            div[data-baseweb="select"] input,
+            div[data-baseweb="select"] span,
+            div[data-baseweb="select"] svg,
+            [role="listbox"] *,
+            li[role="option"] * {
+                color: var(--ink) !important;
+                fill: var(--ink) !important;
+                -webkit-text-fill-color: var(--ink) !important;
+                opacity: 1 !important;
+            }
+
+            .stNumberInput input::placeholder,
+            .stTextInput input::placeholder,
+            .stTextArea textarea::placeholder,
+            div[data-baseweb="input"] input::placeholder,
+            div[data-baseweb="select"] input::placeholder {
+                color: #7d8b85 !important;
+                -webkit-text-fill-color: #7d8b85 !important;
+                opacity: 1 !important;
             }
 
             label,
