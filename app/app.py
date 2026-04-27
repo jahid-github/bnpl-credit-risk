@@ -311,14 +311,47 @@ def inject_styles():
             .stTextArea textarea,
             div[data-baseweb="input"] input,
             div[data-baseweb="select"] input,
+            div[data-baseweb="select"] div,
             div[data-baseweb="select"] span,
             div[data-baseweb="select"] svg,
+            div[data-baseweb="popover"] *,
+            div[data-baseweb="menu"] *,
             [role="listbox"] *,
             li[role="option"] * {
                 color: var(--ink) !important;
                 fill: var(--ink) !important;
                 -webkit-text-fill-color: var(--ink) !important;
                 opacity: 1 !important;
+                caret-color: var(--ink) !important;
+            }
+
+            .stNumberInput input,
+            .stTextInput input,
+            .stTextArea textarea,
+            div[data-baseweb="input"] input,
+            div[data-baseweb="select"] input {
+                caret-color: var(--ink) !important;
+                cursor: text !important;
+            }
+
+            div[data-baseweb="popover"],
+            div[data-baseweb="menu"],
+            [role="listbox"] {
+                background: rgba(255, 253, 249, 0.99) !important;
+                color: var(--ink) !important;
+            }
+
+            li[role="option"],
+            div[role="option"] {
+                background: transparent !important;
+                color: var(--ink) !important;
+            }
+
+            li[role="option"]:hover,
+            div[role="option"]:hover,
+            li[role="option"][aria-selected="true"],
+            div[role="option"][aria-selected="true"] {
+                background: rgba(15, 118, 110, 0.10) !important;
             }
 
             .stNumberInput input::placeholder,
@@ -470,84 +503,186 @@ with main_col:
 
         with left_col:
             st.markdown("#### Customer Profile")
-            age = st.number_input("Age", min_value=18, max_value=100, value=30)
+            age = st.number_input(
+                "Age",
+                min_value=18,
+                max_value=100,
+                value=None,
+                step=1,
+                placeholder="e.g. 30",
+                help="Enter the customer's age in years.",
+            )
             employment_type = st.selectbox(
                 "Employment Type",
                 ["Salaried", "Self-employed", "Student", "Unemployed"],
+                index=None,
+                placeholder="Choose employment type",
+                help="Select the customer's current employment status.",
             )
-            monthly_income = st.number_input("Monthly Income", min_value=0.0, value=3000.0)
-            credit_score = st.number_input("Credit Score", min_value=300, max_value=900, value=650)
-            location = st.selectbox("Location", ["Urban", "Semi-Urban", "Rural"])
-            customer_segment = st.selectbox("Customer Segment", ["Low", "Medium", "High"])
+            monthly_income = st.number_input(
+                "Monthly Income",
+                min_value=0.0,
+                value=None,
+                step=100.0,
+                format="%.2f",
+                placeholder="e.g. 3000.00",
+                help="Enter the customer's monthly income amount.",
+            )
+            credit_score = st.number_input(
+                "Credit Score",
+                min_value=300,
+                max_value=900,
+                value=None,
+                step=1,
+                placeholder="300 to 900",
+                help="Use a credit score in the standard consumer range.",
+            )
+            location = st.selectbox(
+                "Location",
+                ["Urban", "Semi-Urban", "Rural"],
+                index=None,
+                placeholder="Choose location type",
+                help="Select the customer's residential location category.",
+            )
+            customer_segment = st.selectbox(
+                "Customer Segment",
+                ["Low", "Medium", "High"],
+                index=None,
+                placeholder="Choose customer segment",
+                help="Select the internal customer segment or risk tier.",
+            )
 
         with right_col:
             st.markdown("#### Transaction and Behavior")
-            purchase_amount = st.number_input("Purchase Amount", min_value=0.0, value=500.0)
+            purchase_amount = st.number_input(
+                "Purchase Amount",
+                min_value=0.0,
+                value=None,
+                step=50.0,
+                format="%.2f",
+                placeholder="e.g. 500.00",
+                help="Enter the BNPL transaction amount.",
+            )
             product_category = st.selectbox(
                 "Product Category",
                 ["Electronics", "Fashion", "Furniture", "Grocery", "Travel"],
+                index=None,
+                placeholder="Choose product category",
+                help="Select the product or merchant category for the purchase.",
             )
-            bnpl_installments = st.number_input("BNPL Installments", min_value=1, max_value=24, value=4)
-            repayment_delay_days = st.number_input("Repayment Delay Days", min_value=0, value=0)
-            missed_payments = st.number_input("Missed Payments", min_value=0, value=0)
-            app_usage_frequency = st.number_input("App Usage Frequency", min_value=0, value=10)
+            bnpl_installments = st.number_input(
+                "BNPL Installments",
+                min_value=1,
+                max_value=24,
+                value=None,
+                step=1,
+                placeholder="e.g. 4",
+                help="Enter the number of installments offered for this purchase.",
+            )
+            repayment_delay_days = st.number_input(
+                "Repayment Delay Days",
+                min_value=0,
+                value=None,
+                step=1,
+                placeholder="e.g. 0",
+                help="Enter the typical repayment delay in days.",
+            )
+            missed_payments = st.number_input(
+                "Missed Payments",
+                min_value=0,
+                value=None,
+                step=1,
+                placeholder="e.g. 0",
+                help="Enter how many prior payments were missed.",
+            )
+            app_usage_frequency = st.number_input(
+                "App Usage Frequency",
+                min_value=0,
+                value=None,
+                step=1,
+                placeholder="e.g. 10",
+                help="Enter the customer's approximate app usage frequency score.",
+            )
             debt_to_income_ratio = st.number_input(
                 "Debt to Income Ratio",
                 min_value=0.0,
                 max_value=1.0,
-                value=0.3,
+                value=None,
+                step=0.01,
+                format="%.2f",
+                placeholder="0.00 to 1.00",
+                help="Enter the debt-to-income ratio as a decimal value.",
             )
 
         submitted = st.form_submit_button("Run Risk Assessment")
 
-    input_data = pd.DataFrame(
-        [
-            {
-                "age": age,
-                "employment_type": employment_type,
-                "monthly_income": monthly_income,
-                "credit_score": credit_score,
-                "purchase_amount": purchase_amount,
-                "product_category": product_category,
-                "bnpl_installments": bnpl_installments,
-                "repayment_delay_days": repayment_delay_days,
-                "missed_payments": missed_payments,
-                "app_usage_frequency": app_usage_frequency,
-                "location": location,
-                "debt_to_income_ratio": debt_to_income_ratio,
-                "customer_segment": customer_segment,
-            }
-        ]
-    )
-
     if submitted:
-        probability = model.predict_proba(input_data)[0][1]
-        risk_level, risk_class, summary, recommendation = classify_risk(probability)
+        required_fields = {
+            "Age": age,
+            "Employment Type": employment_type,
+            "Monthly Income": monthly_income,
+            "Credit Score": credit_score,
+            "Location": location,
+            "Customer Segment": customer_segment,
+            "Purchase Amount": purchase_amount,
+            "Product Category": product_category,
+            "BNPL Installments": bnpl_installments,
+            "Repayment Delay Days": repayment_delay_days,
+            "Missed Payments": missed_payments,
+            "App Usage Frequency": app_usage_frequency,
+            "Debt to Income Ratio": debt_to_income_ratio,
+        }
+        missing_fields = [name for name, value in required_fields.items() if value is None]
 
-        st.markdown(
-            f"""
-            <div class="result-card {risk_class}">
-                <div class="result-kicker">Assessment Output</div>
-                <div class="result-grid">
-                    <div>
-                        <h2 class="result-title">{risk_level}</h2>
-                        <p class="result-copy">{summary}</p>
-                    </div>
-                    <div class="result-pill">
-                        <strong>{probability:.2%}</strong>
-                        <span>Default Probability</span>
+        if missing_fields:
+            st.warning("Complete all fields to run the assessment. The placeholders show example input formats.")
+        else:
+            input_data = pd.DataFrame(
+                [
+                    {
+                        "age": age,
+                        "employment_type": employment_type,
+                        "monthly_income": monthly_income,
+                        "credit_score": credit_score,
+                        "purchase_amount": purchase_amount,
+                        "product_category": product_category,
+                        "bnpl_installments": bnpl_installments,
+                        "repayment_delay_days": repayment_delay_days,
+                        "missed_payments": missed_payments,
+                        "app_usage_frequency": app_usage_frequency,
+                        "location": location,
+                        "debt_to_income_ratio": debt_to_income_ratio,
+                        "customer_segment": customer_segment,
+                    }
+                ]
+            )
+            probability = model.predict_proba(input_data)[0][1]
+            risk_level, risk_class, summary, recommendation = classify_risk(probability)
+
+            st.markdown(
+                f"""
+                <div class="result-card {risk_class}">
+                    <div class="result-kicker">Assessment Output</div>
+                    <div class="result-grid">
+                        <div>
+                            <h2 class="result-title">{risk_level}</h2>
+                            <p class="result-copy">{summary}</p>
+                        </div>
+                        <div class="result-pill">
+                            <strong>{probability:.2%}</strong>
+                            <span>Default Probability</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+                """,
+                unsafe_allow_html=True,
+            )
 
-        metric_cols = st.columns(3)
-        metric_cols[0].metric("Default Probability", f"{probability:.2%}")
-        metric_cols[1].metric("Risk Level", risk_level)
-        metric_cols[2].metric("Suggested Action", recommendation)
-        st.progress(float(probability))
+            metric_cols = st.columns(3)
+            metric_cols[0].metric("Default Probability", f"{probability:.2%}")
+            metric_cols[1].metric("Risk Level", risk_level)
+            metric_cols[2].metric("Suggested Action", recommendation)
+            st.progress(float(probability))
     else:
         st.markdown(
             """
