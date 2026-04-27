@@ -278,6 +278,38 @@ def inject_styles():
                 background: rgba(255, 250, 242, 0.55);
             }
 
+            .feedback-card {
+                margin-top: 1rem;
+                border-radius: 22px;
+                padding: 1rem 1.1rem;
+                border: 1px solid transparent;
+                box-shadow: var(--shadow);
+                animation: rise 0.35s ease-out;
+            }
+
+            .feedback-card.warning {
+                background: linear-gradient(135deg, #fff6bf, #ffe8a3);
+                border-color: rgba(146, 64, 14, 0.18);
+            }
+
+            .feedback-title {
+                font-family: "Space Grotesk", sans-serif;
+                font-size: 1.05rem;
+                margin: 0 0 0.35rem 0;
+                color: #7c2d12;
+            }
+
+            .feedback-copy {
+                margin: 0;
+                color: #7c2d12;
+                font-size: 0.95rem;
+                line-height: 1.65;
+            }
+
+            .feedback-copy strong {
+                color: #5b1c08;
+            }
+
             div.stButton > button,
             div[data-testid="stFormSubmitButton"] > button {
                 width: 100%;
@@ -669,7 +701,20 @@ with main_col:
         missing_fields = [name for name, value in required_fields.items() if value is None]
 
         if missing_fields:
-            st.warning("Complete all fields to run the assessment. The placeholders show example input formats.")
+            missing_text = ", ".join(missing_fields)
+            st.markdown(
+                f"""
+                <div class="feedback-card warning">
+                    <h3 class="feedback-title">Complete all fields before running the assessment</h3>
+                    <p class="feedback-copy">
+                        The model did not run because some inputs are still empty.
+                        Missing fields: <strong>{missing_text}</strong>.
+                        Use the placeholder examples inside each box as a guide for the expected format.
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
         else:
             input_data = pd.DataFrame(
                 [
